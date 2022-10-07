@@ -1,35 +1,23 @@
 package cs401.plantinformation;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.lang.NonNull;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface PlantRepository extends CrudRepository<Plant, Long> {
-    List<Plant> findByType(Boolean typeOfPlant);
-    List<Plant> findByCommonName(String commonName);
-    List<Plant> findByScientificName(String scientificName);
-    List<Plant> findByMinGrowingZone(String minGrowingZone);
-    List<Plant> findByMaxGrowingZone(String maxGrowingZone);
+    long countByCommonName(String commonName);
 
-    List<Plant> findDistinctByIdOrderByCommonNameAsc(
-            Sort sort);
+    long countByScientificName(String scientificName);
 
-    @Override
-    Optional<Plant> findById(Long aLong);
 
-    @Query("select count(p) from Plant p where upper(p.commonName) like upper(?1)")
-    long checkDuplicates(String commonName);
+    List<Plant> findByCommonName(String s);
+    List<Plant> findByScientificName(String s);
+    List<Plant> findByTypeOfPlant(Boolean b);
+    List<Plant> findByMinGrowingZone(int i);
+    List<Plant> findByMaxGrowingZone(int i);
 
-    @Transactional
-    @Modifying
-    @Query("delete from Plant p where upper(p.commonName) like upper(?1)")
-    int deleteDuplicate(@NonNull String commonName);
+    List<Plant> getAllByAllIgnoreCase();
+
 
 
 }

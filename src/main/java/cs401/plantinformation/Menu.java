@@ -14,10 +14,18 @@ public class Menu {
 
         do{
             Scanner stdin = new Scanner(System.in);
-            System.out.println("Enter command : \n 0 to Quit\n 1 to Add\n 2 to Find by type\n 3 to Find by zone\n 4 to Find by name\n 5 to Display all information >>> ");
+            System.out.println("Enter command : \n " +
+                    "0 to Quit\n " +
+                    "1 to Add\n " +
+                    "2 to Find by type\n " +
+                    "3 to Find by Minimum Growing Year\n " +
+                    "4 to Find by Maximum Growing Year\n " +
+                    "5 to Find by Common Name\n " +
+                    "6 to Find by Scientific Name\n " +
+                    "7 to Display all information\n >>>>>> ");
             mainMenuChoice = stdin.nextInt();
 
-            if(mainMenuChoice < 0 || mainMenuChoice > 5)
+            if(mainMenuChoice < 0 || mainMenuChoice > 7)
             {
                 valid = false;
                 System.out.println("Invalid Input\n");
@@ -49,7 +57,7 @@ public class Menu {
         stdin = new Scanner(System.in);
         boolean b = false;
         do {
-            System.out.printf("Please enter Type of Plant (false - > Tree, True - > Perennial) : ");
+            System.out.printf("Please enter Type of Plant (false - > Tree, true - > Perennial) : ");
             try {
                 Scanner n = new Scanner(System.in);
                 boolean bn = n.nextBoolean();
@@ -58,7 +66,7 @@ public class Menu {
                 } else if (bn == false) {
                     newPlant.setTypeOfPlant(false);
                 }
-
+                b = true;
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input!");
             }

@@ -6,10 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Formatter;
+import java.util.*;
 
 @SpringBootApplication
 public class PlantInformationApplication {
@@ -27,7 +24,7 @@ public class PlantInformationApplication {
 
             int menuChoice;
             Menu plantMenu = new Menu();
-            //List<Plant> plantList = new List<>();
+            List<Plant> plantList = new ArrayList<>();
 
             System.out.println("Program Started");
 
@@ -41,26 +38,134 @@ public class PlantInformationApplication {
                         Plant newPlant = new Plant();
                         newPlant = plantMenu.addPlantInformation();
 
+                        repository.save(newPlant);
 
                     }
                     case 2 -> {
+
                         System.out.println("Finding Plant name by Type ");
+                        Scanner stdin = new Scanner(System.in);
+                        boolean b = false;
+                        plantList.clear();
+                        System.out.printf("Please enter Type of Plant to Find (type Tree or Perennial) :");
+                        String typeToSearch = stdin.next();
+
+                        if (typeToSearch.equalsIgnoreCase("Tree"))
+                        {
+                            plantList= repository.findByTypeOfPlant(false);
+                        } else if (typeToSearch.equalsIgnoreCase("Perennial")) {
+                            plantList = repository.findByTypeOfPlant(true);
+                        }
+
+                        Formatter fmt = new Formatter();
+                        fmt.format("%25s %25s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Min Growing Zone", "Max Growing Zone");
+
+
+                        for(Plant i: plantList)
+                        {
+                            fmt.format("%25s %25s %15s %15s %15s\n", i.getCommonName(), i.getScientificName(), i.getTypeOfPlant(), i.getMinGrowingZone(), i.getMaxGrowingZone());
+                        }
+                        System.out.println(fmt);
+
 
                     }
                     case 3 -> {
-                        System.out.println("Finding Plant name by Zone ");
+                        System.out.println("Finding Plant name by Minimum Year ");
+
+                        Scanner stdin = new Scanner(System.in);
+                        boolean b = false;
+                        plantList.clear();
+                        System.out.printf("Please enter minimum Year (integers 0 - 9 [0-9]) :");
+                        int minYear = stdin.nextInt();
+
+                        plantList= repository.findByMinGrowingZone(minYear);
+
+                        Formatter fmt = new Formatter();
+                        fmt.format("%25s %25s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Min Growing Zone", "Max Growing Zone");
+
+                        for(Plant i: plantList)
+                        {
+                            fmt.format("%25s %25s %15s %15s %15s\n", i.getCommonName(), i.getScientificName(), i.getTypeOfPlant(), i.getMinGrowingZone(), i.getMaxGrowingZone());
+                        }
+                        System.out.println(fmt);
 
                     }
                     case 4 -> {
-                        System.out.println("Finding Plant name by Name ");
+                        System.out.println("Finding Plant name by Maximum Year ");
 
-                    }
-                    case 5 -> {
+                        Scanner stdin = new Scanner(System.in);
+                        boolean b = false;
+                        plantList.clear();
+                        System.out.printf("Please enter maximum Year (integers 0 - 9 [0-9]) :");
+                        int maxYear = stdin.nextInt();
+
+                        plantList= repository.findByMinGrowingZone(maxYear);
 
                         Formatter fmt = new Formatter();
-                        fmt.format("%15s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Growing Zone");
+                        fmt.format("%25s %25s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Min Growing Zone", "Max Growing Zone");
 
-                        fmt.format("%s", repository.findDistinctByIdOrderByCommonNameAsc( Sort.by(Sort.Direction.ASC)));
+                        for(Plant i: plantList)
+                        {
+                            fmt.format("%25s %25s %15s %15s %15s\n", i.getCommonName(), i.getScientificName(), i.getTypeOfPlant(), i.getMinGrowingZone(), i.getMaxGrowingZone());
+                        }
+                        System.out.println(fmt);
+
+                    }
+
+                    case 5 -> {
+                        System.out.println("Finding Plant name by Common Name");
+
+                        Scanner stdin = new Scanner(System.in);
+                        boolean b = false;
+                        plantList.clear();
+                        System.out.printf("Please enter Common Name to search :");
+                        String cName = stdin.next();
+
+                        plantList= repository.findByCommonName(cName);
+
+                        Formatter fmt = new Formatter();
+                        fmt.format("%25s %25s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Min Growing Zone", "Max Growing Zone");
+
+                        for(Plant i: plantList)
+                        {
+                            fmt.format("%25s %25s %15s %15s %15s\n", i.getCommonName(), i.getScientificName(), i.getTypeOfPlant(), i.getMinGrowingZone(), i.getMaxGrowingZone());
+                        }
+                        System.out.println(fmt);
+
+                    }
+
+                    case 6 -> {
+                        System.out.println("Finding Plant name by Scientific Name ");
+
+                        Scanner stdin = new Scanner(System.in);
+                        boolean b = false;
+                        plantList.clear();
+                        System.out.printf("Please enter Scientific Name to search :");
+                        String sName = stdin.next();
+
+                        plantList= repository.findByScientificName(sName);
+
+                        Formatter fmt = new Formatter();
+                        fmt.format("%25s %25s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Min Growing Zone", "Max Growing Zone");
+
+                        for(Plant i: plantList)
+                        {
+                            fmt.format("%25s %25s %15s %15s %15s\n", i.getCommonName(), i.getScientificName(), i.getTypeOfPlant(), i.getMinGrowingZone(), i.getMaxGrowingZone());
+                        }
+                        System.out.println(fmt);
+
+                    }
+                    case 7 -> {
+
+                        Formatter fmt = new Formatter();
+                        fmt.format("%25s %25s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Min Growing Zone", "Max Growing Zone");
+
+                        plantList.clear();
+                        plantList = repository.getAllByAllIgnoreCase();
+                        for(Plant i: plantList)
+                        {
+                            fmt.format("%25s %25s %15s %15s %15s\n", i.getCommonName(), i.getScientificName(), i.getTypeOfPlant(), i.getMinGrowingZone(), i.getMaxGrowingZone());
+                        }
 
                         System.out.println(fmt);
                     }
@@ -77,6 +182,11 @@ public class PlantInformationApplication {
 
         });
 
+
+    }
+
+    private static void findingPlantByType(List<Plant> plantList)
+    {
 
     }
 

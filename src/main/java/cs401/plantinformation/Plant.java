@@ -43,8 +43,11 @@ public class Plant {
         this.scientificName = scientificName;
     }
 
-    public boolean isTypeOfPlant() {
-        return typeOfPlant;
+    public String getTypeOfPlant() {
+        if (typeOfPlant)
+                return "Perennial";
+        else
+            return "Tree";
     }
 
     public void setTypeOfPlant(boolean typeOfPlant) {
