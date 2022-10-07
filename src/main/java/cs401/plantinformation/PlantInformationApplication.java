@@ -4,7 +4,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Sort;
+
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Formatter;
 
@@ -24,6 +27,7 @@ public class PlantInformationApplication {
 
             int menuChoice;
             Menu plantMenu = new Menu();
+            //List<Plant> plantList = new List<>();
 
             System.out.println("Program Started");
 
@@ -55,12 +59,9 @@ public class PlantInformationApplication {
 
                         Formatter fmt = new Formatter();
                         fmt.format("%15s %15s %15s %15s\n", "Common Name", "Scientific Name", "Type of Plant", "Growing Zone");
-                        long l = 0;
-                        for(int i=0; i <= repository.count(); i++)
-                            l = i;
-                            fmt.format("%s", repository.findById(l));
 
-                        repository.findAll();
+                        fmt.format("%s", repository.findDistinctByIdOrderByCommonNameAsc( Sort.by(Sort.Direction.ASC)));
+
                         System.out.println(fmt);
                     }
                     default -> {

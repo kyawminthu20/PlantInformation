@@ -15,7 +15,7 @@ public class Plant {
     private int minGrowingZone;
     private int maxGrowingZone;
 
-    public Plant() {
+    protected Plant() {
 
     }
 
@@ -72,8 +72,6 @@ public class Plant {
     public void setId(Long id) {
         this.id = id;
     }
-
-
 
     public Long getId() {
         return id;
