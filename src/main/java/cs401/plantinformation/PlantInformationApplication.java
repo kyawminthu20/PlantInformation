@@ -27,20 +27,27 @@ public class PlantInformationApplication {
             List<Plant> plantList = new ArrayList<>();
 
             System.out.println("Program Started");
+// MENU DISPLAY AND RETURN VALUE IS CHECKED AGAINST THE CASES
 
             do{
                 menuChoice = plantMenu.displayMainMenu();
-                System.out.println("the return value is " + menuChoice);
+                //System.out.println("the return value is " + menuChoice);
 
+
+                // CASE 1 TO ADD PLANT INFORMATION, NEW PLANT INFORMATION ADDING THROUGH MENU CLASS
                 switch (menuChoice) {
                     case 1 -> {
                         System.out.println("Adding a plant information < Common Name, Scientific Name, Type of Plant, Minimum Planting Zone, Maximum Planting Zone");
                         Plant newPlant = new Plant();
                         newPlant = plantMenu.addPlantInformation();
 
+                        //USING REPOSITORY SAVE TO ADD PLANT INFORMATION
+
                         repository.save(newPlant);
 
                     }
+
+                    // CASES 2-7 USED REPOSITORY METHODS UNDER PLANT REPOSITORY TO GET THE LIST OF PLANTS THROUGH JPA SPRING BUILT IN FUNCTIONS
                     case 2 -> {
 
                         System.out.println("Finding Plant name by Type ");
@@ -173,24 +180,11 @@ public class PlantInformationApplication {
                         System.out.println("Case not matched Error");
                     }
                 }
-
-
-
             }while(menuChoice != 0);
-
-
-
         });
-
-
     }
 
-    private static void findingPlantByType(List<Plant> plantList)
-    {
-
-    }
-
-
+    // INSERT PLANT DEMO IS USED TO MAKE PLANT INFORMATION READY WHEN IT IS RUN - TESTING PURPOSE
     private void insertPlantsDemo(PlantRepository repository){
         repository.save(new Plant("Baloon Flower", "Platycodon grandiflorus", true, 2, 5));
         repository.save(new Plant("Eastern Redbud", "Cercis canadensis", false, 1, 3));
